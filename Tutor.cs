@@ -9,11 +9,23 @@ namespace LanguageTutuor
 {
     internal class Tutor
     {
-        private Dictionary<string, string> _dic = new Dictionary<string, string>();
+        private WordStorage _storage = new WordStorage();
+        private Dictionary<string, string> _dic;
+
         Random _rand = new Random();
+
+        public Tutor() 
+        {
+            _dic = _storage.GetAllWords();
+        }
+
         public void AddWord(string eng, string rus)
         {
-            _dic.Add(eng, rus);
+            if (!_dic.ContainsKey(eng))
+            {
+                _dic.Add(eng, rus);
+                _storage.AddWord(eng, rus);
+            }
         }
         public bool CheckWord(string eng, string rus)
         {

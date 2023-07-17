@@ -4,7 +4,9 @@ internal class Program
 {
     private static void Main(string[] args)
     {
+       
         var tutor = new Tutor();
+
         tutor.AddWord("dog", "собака");
         tutor.AddWord("cat", "кошка");
         tutor.AddWord("hello", "привет");
