@@ -1,33 +1,43 @@
-﻿using LanguageTutuor;
+﻿using System.ComponentModel;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-       
-        var tutor = new Tutor();
-
-        tutor.AddWord("dog", "собака");
-        tutor.AddWord("cat", "кошка");
-        tutor.AddWord("hello", "привет");
-        tutor.AddWord("bye", "пока");
-        tutor.AddWord("bike", "велосипед");
-
-        while (true)
+        var nums = GetArrayFromFile("path.txt");
+    }
+    static int[] GetArrayFromFile(string path)
+    {
+        try
         {
-            string word = tutor.GetRandomEngWord();
-            Console.WriteLine(word);
-            Console.Write("Введите перевод: ");
-            string answer = Console.ReadLine();
-            if (tutor.CheckWord(word,answer))
+            string content = File.ReadAllText(path);
+            var numString = content.Split(" ");
+            List<int> nums = new List<int>();
+            for (int i = 0; i < numString.Length; i++)
             {
-                Console.WriteLine($"Вы правы {word} переводится как как {tutor.Translate(word)}");
+                int num;
+                if (int.TryParse(numString[i],out num))
+                    nums.Add(num);
             }
-            else
-            {
-                Console.WriteLine($"К сожалению вы ошиблись {word} переводится как как {tutor.Translate(word)}");
-            }
-            Console.WriteLine();
+            return nums.ToArray();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Не удалось прочитать файл");
+            return new int[0];
+        }
+    }
+    static int GetRowCount(string path)
+    {
+        try
+        {
+            var rows = File.ReadAllLines(path);
+            return rows.Length;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Файл по адресу {path} был не найден");
+            return 0;
         }
     }
 }
