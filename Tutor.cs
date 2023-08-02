@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LanguageTutuor
 {
@@ -29,8 +30,15 @@ namespace LanguageTutuor
         }
         public bool CheckWord(string eng, string rus)
         {
-            var answer = _dic[eng];
-            return answer.ToLower() == rus.ToLower();
+            try
+            {
+                var answer = _dic[eng];
+                return answer.ToLower() == rus.ToLower();
+            }
+            catch (KeyNotFoundException ex)
+            {                
+                return false;
+            }
         }
         public string Translate(string eng)
         {
